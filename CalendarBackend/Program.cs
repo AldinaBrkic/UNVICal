@@ -1,41 +1,46 @@
 using CalendarBackend.Data;
 using Microsoft.EntityFrameworkCore;
-using UNVICal.Data; // za EventsDbContext
+using UNVICal.Data; // for EventsDbContext
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Registracija postojećeg AppDbContext-a (za korisnike)
+// ✅ Register existing AppDbContext (for users)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 43)) // verzija MySQL servera
+        new MySqlServerVersion(new Version(8, 0, 43))
     ));
 
-// ✅ Registracija novog EventsDbContext-a (za evente)
+// ✅ Register new EventsDbContext (for events)
 builder.Services.AddDbContext<EventsDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         new MySqlServerVersion(new Version(8, 0, 43))
     ));
 
-// ✅ Dodaj kontrolere
+// ✅ Add controllers
 builder.Services.AddControllers();
 
-// ✅ CORS da frontend (React na portu 3000) može komunicirati
+// ✅ CORS so frontend (React on Vercel) can communicate
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
-        policy => policy.WithOrigins("http://localhost:3000") // URL frontenda
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+        policy => policy.WithOrigins(
+                "http://localhost:3000",                  // local dev
+                "https://your-frontend.vercel.app"        // deployed frontend URL
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod());
 });
 
 var app = builder.Build();
 
-// ✅ Omogući CORS
+// ✅ Enable CORS
 app.UseCors("AllowFrontend");
 
-// ✅ Mapiraj kontrolere
+// ✅ Map controllers
 app.MapControllers();
 
-app.Run();
+// ✅ Configure PORT for Render
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+app.Run($"http://0.0.0.0:{port}");
