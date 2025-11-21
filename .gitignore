@@ -1,0 +1,7 @@
+# Ignore build artifacts
+/out
+/bin
+/obj
+CalendarBackend/bin/
+CalendarBackend/obj/
+frontend/node_modules/
