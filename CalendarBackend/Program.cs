@@ -26,8 +26,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy => policy.WithOrigins(
-                "http://localhost:3000",                  // local dev
-                "https://your-frontend.vercel.app"        // deployed frontend URL (replace later)
+                "http://localhost:3000",                                   // local dev
+                "https://unvical-r4wfcssv7-aldinas-projects.vercel.app"    // deployed frontend URL
             )
             .AllowAnyHeader()
             .AllowAnyMethod());
@@ -35,8 +35,10 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// ✅ Enable CORS
+// ✅ Middleware order
+app.UseRouting();
 app.UseCors("AllowFrontend");
+app.UseAuthorization();
 
 // ✅ Map controllers
 app.MapControllers();
