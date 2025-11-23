@@ -21,13 +21,13 @@ builder.Services.AddDbContext<EventsDbContext>(options =>
 // ✅ Add controllers
 builder.Services.AddControllers();
 
-// ✅ CORS so frontend (React on Vercel) can communicate
+// ✅ CORS so frontend (React local + Vercel) can communicate
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy => policy.WithOrigins(
                 "http://localhost:3000",                  // local dev
-                "https://your-frontend.vercel.app"        // deployed frontend URL
+                "https://your-frontend.vercel.app"        // deployed frontend URL (replace later)
             )
             .AllowAnyHeader()
             .AllowAnyMethod());
