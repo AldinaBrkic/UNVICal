@@ -27,7 +27,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy => policy.WithOrigins(
                 "http://localhost:3000",                                   // local dev
-                "https://unvical-g0d8cwpor-aldinas-projects.vercel.app"    // deployed frontend URL
+                "https://unvical-7e34dgx82-aldinas-projects.vercel.app "    // deployed frontend URL
             )
             .AllowAnyHeader()
             .AllowAnyMethod());
