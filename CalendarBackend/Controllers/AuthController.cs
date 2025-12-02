@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using CalendarBackend.Data;
 using CalendarBackend.Models;
 using System.Linq;
-using BCrypt.Net;
 
 namespace CalendarBackend.Controllers
 {
